@@ -13,8 +13,18 @@ interface Store {
   set<T>(key: string, value: T, ttlSeconds: number): Promise<void>;
 }
 
-function createRedisStore(): Store {
-  const redis = Redis.fromEnv();
+// Vercel's Upstash integration injects KV_REST_API_* names; a hand-wired
+// Upstash database uses UPSTASH_REDIS_REST_*. Accept either.
+function resolveRedisConfig(): { url: string; token: string } | null {
+  const url =
+    process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+  const token =
+    process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+  return url && token ? { url, token } : null;
+}
+
+function createRedisStore(config: { url: string; token: string }): Store {
+  const redis = new Redis(config);
   return {
     async get<T>(key: string) {
       return (await redis.get<T>(key)) ?? null;
@@ -43,9 +53,7 @@ function createMemoryStore(): Store {
   };
 }
 
-const usingRedis = Boolean(
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN,
-);
+const redisConfig = resolveRedisConfig();
 
 // Reuse a single store across hot reloads / serverless invocations so the
 // in-memory fallback doesn't reset on every request in dev.
@@ -53,8 +61,8 @@ const globalForStore = globalThis as unknown as { __mingleStore?: Store };
 
 export const store: Store =
   globalForStore.__mingleStore ??
-  (globalForStore.__mingleStore = usingRedis
-    ? createRedisStore()
+  (globalForStore.__mingleStore = redisConfig
+    ? createRedisStore(redisConfig)
     : createMemoryStore());
 
-export const storageBackend = usingRedis ? "redis" : "memory";
+export const storageBackend = redisConfig ? "redis" : "memory";

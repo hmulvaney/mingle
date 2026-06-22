@@ -25,39 +25,20 @@ details into your phone is the worst part of saying hello.
 > *current* active group, a single printout supports one live event at a time.
 > Start a new group and it becomes the active one.
 
-## Try it locally (zero setup)
+## Run it locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open <http://localhost:3000>:
+Open <http://localhost:3000>.
 
-1. **Start a new group** and name it.
-2. In a second browser (or an incognito window), open <http://localhost:3000> —
-   it shows **Join {your event}**. Add a contact and you'll see both people in
-   the directory.
-3. Visit <http://localhost:3000/qr> to see the printable QR.
+## Deploy
 
-With no database configured, Mingle uses an in-memory store, so data resets when
-the dev server restarts. That's fine for trying the concept — wire up Upstash
-below for real, shared, persistent storage.
-
-## Deploy (Vercel + Upstash, free)
-
-1. Push this repo to GitHub (already done if you're reading this there).
-2. Import it into [Vercel](https://vercel.com/new).
-3. In the Vercel project, add the **Upstash** integration from the Marketplace
-   (Storage → Upstash Redis). It provisions a free database and automatically
-   sets `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
-4. Deploy. Your permanent URL (e.g. `https://mingle.vercel.app`) is what the QR
-   encodes.
-5. Open `/qr`, print it, and you're ready for the event.
-
-Prefer to wire Upstash by hand? Create a database at
-<https://console.upstash.com>, copy the REST URL + token into a `.env.local`
-(see `.env.example`), and Mingle will use it in dev too.
+1. Import the repo into [Vercel](https://vercel.com/new).
+2. Add the **Upstash Redis** integration (Storage → Upstash Redis).
+3. Deploy, open `/qr`, and print it.
 
 ## At a Silicon Valley mixer (the 30-second pitch)
 

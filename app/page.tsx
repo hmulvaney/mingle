@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getActiveGroup } from "@/lib/groups";
+import EndEventButton from "./EndEventButton";
 
 export const dynamic = "force-dynamic";
 
@@ -29,12 +30,15 @@ export default async function Home() {
             </span>
           </div>
           <hr className="divider" />
-          <p className="muted">
-            Running a different event?{" "}
-            <Link className="link" href="/new">
-              Start a new group
-            </Link>
-          </p>
+          <div className="row-between">
+            <p className="muted">
+              Running a different event?{" "}
+              <Link className="link" href="/new">
+                Start a new group
+              </Link>
+            </p>
+            <EndEventButton />
+          </div>
         </>
       ) : (
         <>

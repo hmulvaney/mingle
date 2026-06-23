@@ -40,6 +40,12 @@ export async function getActiveGroup(): Promise<Group | null> {
   return getGroup(id);
 }
 
+// End the current event: home returns to the "Start a new group" state. The
+// group's own data still lives out its 48h TTL; only the active pointer clears.
+export async function clearActiveGroup(): Promise<void> {
+  await store.del(ACTIVE_GROUP_KEY);
+}
+
 export async function addMember(
   id: string,
   input: NewMember,

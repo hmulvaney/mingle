@@ -11,6 +11,7 @@ export const TTL_SECONDS = 48 * 60 * 60;
 interface Store {
   get<T>(key: string): Promise<T | null>;
   set<T>(key: string, value: T, ttlSeconds: number): Promise<void>;
+  del(key: string): Promise<void>;
 }
 
 // Vercel's Upstash integration injects KV_REST_API_* names; a hand-wired
@@ -32,6 +33,9 @@ function createRedisStore(config: { url: string; token: string }): Store {
     async set<T>(key: string, value: T, ttlSeconds: number) {
       await redis.set(key, value, { ex: ttlSeconds });
     },
+    async del(key: string) {
+      await redis.del(key);
+    },
   };
 }
 
@@ -49,6 +53,9 @@ function createMemoryStore(): Store {
     },
     async set<T>(key: string, value: T, ttlSeconds: number) {
       map.set(key, { value, expiresAt: Date.now() + ttlSeconds * 1000 });
+    },
+    async del(key: string) {
+      map.delete(key);
     },
   };
 }

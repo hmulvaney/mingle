@@ -22,6 +22,19 @@ function linkedinUrl(value: string): string | null {
   return `https://www.linkedin.com/in/${v.replace(/^@/, "")}`;
 }
 
+// Short, legible handle for the chip label (e.g. "adalovelace"), tolerating
+// full URLs, trailing slashes, and ?tracking= junk.
+function linkedinHandle(value: string): string {
+  const url = linkedinUrl(value);
+  if (!url) return "LinkedIn";
+  try {
+    const segments = new URL(url).pathname.split("/").filter(Boolean);
+    return segments[segments.length - 1] || "LinkedIn";
+  } catch {
+    return "LinkedIn";
+  }
+}
+
 function vcard(m: Member): string {
   const li = linkedinUrl(m.linkedin);
   return [
@@ -437,7 +450,7 @@ export default function GroupPage({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        in LinkedIn
+                        in {linkedinHandle(m.linkedin)}
                       </a>
                     )}
                   </div>

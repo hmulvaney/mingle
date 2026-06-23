@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { track } from "@/lib/analytics";
 
 interface Created {
   id: string;
@@ -33,6 +34,7 @@ export default function NewGroupPage() {
       });
       if (!res.ok) throw new Error("Could not create the group.");
       const { group } = await res.json();
+      track("group_created", { group_id: group.id });
       setCreated((prev) => [{ id: group.id, name: group.name }, ...prev]);
       setName("");
     } catch (err) {
@@ -50,6 +52,7 @@ export default function NewGroupPage() {
   async function copyLink(id: string) {
     try {
       await navigator.clipboard.writeText(linkFor(id));
+      track("link_copied", { group_id: id, source: "new_page" });
       setCopiedId(id);
       setTimeout(() => setCopiedId((c) => (c === id ? null : c)), 1800);
     } catch {

@@ -3,6 +3,7 @@
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Group, Member } from "@/lib/types";
+import { track } from "@/lib/analytics";
 
 const EMPTY_FORM = {
   name: "",
@@ -180,6 +181,10 @@ export default function GroupPage({
         myId.current = mine.id;
         localStorage.setItem(storageKey, mine.id);
         setJoined(true);
+        track("member_joined", {
+          group_id: id,
+          member_count: data.group.members.length,
+        });
       }
       setEditing(false);
       setForm(EMPTY_FORM);
@@ -223,6 +228,7 @@ export default function GroupPage({
 
   async function shareLink() {
     const link = window.location.href;
+    track("link_copied", { group_id: id, source: "group_page" });
     if (navigator.share) {
       try {
         await navigator.share({ title: group?.name ?? "Mingle", url: link });
@@ -239,6 +245,7 @@ export default function GroupPage({
   function downloadAll() {
     const members = group?.members ?? [];
     if (!members.length) return;
+    track("csv_downloaded", { group_id: id, member_count: members.length });
     const header = ["Name", "Company", "Role", "Email", "Phone", "LinkedIn"];
     const rows = members.map((m) =>
       [

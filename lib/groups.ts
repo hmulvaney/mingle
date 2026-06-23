@@ -1,8 +1,9 @@
 import { store, TTL_SECONDS } from "./store";
 import type { Group, Member, NewMember } from "./types";
 
-const ACTIVE_GROUP_KEY = "active_group";
-const groupKey = (id: string) => `group:${id}`;
+// Namespaced so Mingle can safely share a single Redis database with other apps.
+const ACTIVE_GROUP_KEY = "mingle:active_group";
+const groupKey = (id: string) => `mingle:group:${id}`;
 
 const ID_ALPHABET = "abcdefghijkmnpqrstuvwxyz23456789"; // no look-alikes
 

@@ -10,7 +10,7 @@ export default async function Home() {
     <main className="wrap">
       <div className="brand">
         <span className="dot" />
-        Mingle
+        <span className="gradient-name">Mingle</span>
       </div>
 
       {active ? (

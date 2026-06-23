@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Nunito } from "next/font/google";
 import "./globals.css";
+
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Mingle — swap contacts at events",
@@ -10,7 +17,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0f1020",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -19,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={nunito.variable}>
       <body>{children}</body>
     </html>
   );

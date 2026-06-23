@@ -13,8 +13,8 @@ export default function QrPage() {
     setOrigin(url);
     QRCode.toDataURL(url, {
       width: 560,
-      margin: 2,
-      color: { dark: "#111111", light: "#ffffff" },
+      margin: 1,
+      color: { dark: "#101010", light: "#ffffff" },
     }).then(setDataUrl);
   }, []);
 
@@ -22,7 +22,7 @@ export default function QrPage() {
     <main className="wrap">
       <div className="brand no-print">
         <span className="dot" />
-        Mingle
+        <span className="gradient-name">Mingle</span>
       </div>
       <p className="lead no-print">
         This is your permanent QR code. Print it once and reuse it at every
@@ -32,17 +32,21 @@ export default function QrPage() {
 
       <div className="qr-sheet">
         {dataUrl ? (
-          <img src={dataUrl} alt="Mingle QR code" />
+          <div className="qr-frame">
+            <img src={dataUrl} alt="Mingle QR code" />
+          </div>
         ) : (
           <p>Generating…</p>
         )}
-        <h2>Scan to Mingle</h2>
+        <h2>
+          Scan to <span className="gradient-name">Mingle</span>
+        </h2>
         <ol className="qr-steps">
           <li>Point your camera at the code.</li>
           <li>Add your name, email, phone &amp; LinkedIn.</li>
           <li>Instantly see everyone else in the room.</li>
         </ol>
-        <p style={{ color: "#777", fontSize: 13, marginTop: 16 }}>{origin}</p>
+        <p className="qr-url">{origin}</p>
       </div>
 
       <div className="stack no-print" style={{ marginTop: 20 }}>

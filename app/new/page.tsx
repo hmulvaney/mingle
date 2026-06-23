@@ -37,7 +37,7 @@ export default function NewGroupPage() {
     <main className="wrap">
       <div className="brand">
         <span className="dot" />
-        Mingle
+        <span className="gradient-name">Mingle</span>
       </div>
       <h1>Start a new group</h1>
       <p className="lead">

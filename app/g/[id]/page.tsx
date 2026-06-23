@@ -130,7 +130,7 @@ export default function GroupPage({
       <main className="wrap">
         <div className="brand">
           <span className="dot" />
-          Mingle
+          <span className="gradient-name">Mingle</span>
         </div>
         <p className="lead">Loading…</p>
       </main>
@@ -142,7 +142,7 @@ export default function GroupPage({
       <main className="wrap">
         <div className="brand">
           <span className="dot" />
-          Mingle
+          <span className="gradient-name">Mingle</span>
         </div>
         <h1>This group has expired</h1>
         <p className="lead">
@@ -161,7 +161,7 @@ export default function GroupPage({
       <div className="row-between">
         <div className="brand">
           <span className="dot" />
-          Mingle
+          <span className="gradient-name">Mingle</span>
         </div>
         {countdown && <span className="pill">⏳ {countdown}</span>}
       </div>

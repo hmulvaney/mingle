@@ -65,7 +65,7 @@ body {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid var(--ink);
+  border: 1.5px solid var(--ink);
 }
 
 .brand .dot::before {
@@ -123,7 +123,7 @@ p.lead {
 
 .card {
   background: #fff;
-  border: 2px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 18px;
   box-shadow: 5px 5px 0 var(--ink);
@@ -146,7 +146,7 @@ label {
 input {
   width: 100%;
   background: #fff;
-  border: 2px solid var(--border);
+  border: 1.5px solid var(--border);
   color: var(--ink);
   border-radius: 10px;
   padding: 13px 14px;
@@ -168,7 +168,7 @@ input:focus {
 button,
 .btn {
   appearance: none;
-  border: 2px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   padding: 14px 18px;
   font-size: 16px;
@@ -234,7 +234,7 @@ button[disabled] {
   padding: 6px 12px;
   border-radius: 999px;
   background: var(--yellow);
-  border: 2px solid var(--border);
+  border: 1.5px solid var(--border);
   font-size: 13px;
   font-weight: 800;
   color: var(--ink);
@@ -252,8 +252,8 @@ button[disabled] {
   flex-direction: column;
   gap: 10px;
   padding: 16px;
-  border: 2px solid var(--border);
-  border-left-width: 12px;
+  border: 1.5px solid var(--border);
+  border-left-width: 6px;
   border-radius: var(--radius);
   background: #fff;
 }
@@ -290,7 +290,7 @@ button[disabled] {
   padding: 8px 12px;
   border-radius: 999px;
   background: #fff;
-  border: 2px solid var(--border);
+  border: 1.5px solid var(--border);
   color: var(--ink);
   text-decoration: none;
   font-size: 14px;
@@ -324,7 +324,7 @@ a.link:hover {
 .divider {
   height: 0;
   border: none;
-  border-top: 2px dashed var(--ink);
+  border-top: 1px dashed var(--ink);
   opacity: 0.25;
   margin: 26px 0;
 }
@@ -333,7 +333,7 @@ a.link:hover {
 .qr-sheet {
   background: #fff;
   color: var(--ink);
-  border: 3px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: 18px;
   padding: 34px 26px;
   text-align: center;
@@ -342,7 +342,7 @@ a.link:hover {
 
 .qr-sheet .qr-frame {
   display: inline-block;
-  border: 3px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: 14px;
   padding: 10px;
   background: #fff;

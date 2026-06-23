@@ -49,12 +49,33 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* Two overlapping circles = two people mingling */
 .brand .dot {
+  position: relative;
+  width: 27px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.brand .dot::before,
+.brand .dot::after {
+  content: "";
+  position: absolute;
+  top: 0;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   border: 2px solid var(--ink);
-  background-image: linear-gradient(135deg, var(--pink), var(--yellow));
+}
+
+.brand .dot::before {
+  left: 0;
+  background: var(--pink);
+}
+
+.brand .dot::after {
+  left: 11px;
+  background: var(--yellow);
 }
 
 @keyframes gradient-shift {

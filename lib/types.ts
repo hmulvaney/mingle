@@ -4,6 +4,8 @@ export interface Member {
   email: string;
   phone: string;
   linkedin: string;
+  company: string;
+  role: string;
   joinedAt: number;
 }
 
@@ -15,4 +17,4 @@ export interface Group {
   members: Member[];
 }
 
-export type NewMember = Omit<Member, "id" | "joinedAt">;
+export type MemberInput = Omit<Member, "id" | "joinedAt">;

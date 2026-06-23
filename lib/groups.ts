@@ -1,5 +1,16 @@
 import { store, TTL_SECONDS } from "./store";
-import type { Group, Member, NewMember } from "./types";
+import type { Group, Member, MemberInput } from "./types";
+
+function sanitize(input: MemberInput): Omit<Member, "id" | "joinedAt"> {
+  return {
+    name: input.name.trim().slice(0, 120),
+    email: input.email.trim().slice(0, 200),
+    phone: input.phone.trim().slice(0, 40),
+    linkedin: input.linkedin.trim().slice(0, 200),
+    company: input.company.trim().slice(0, 120),
+    role: input.role.trim().slice(0, 120),
+  };
+}
 
 // Namespaced so Mingle can safely share a single Redis database with other apps.
 const ACTIVE_GROUP_KEY = "mingle:active_group";
@@ -48,20 +59,43 @@ export async function clearActiveGroup(): Promise<void> {
 
 export async function addMember(
   id: string,
-  input: NewMember,
+  input: MemberInput,
 ): Promise<Group | null> {
   const group = await getGroup(id);
   if (!group) return null;
 
   const member: Member = {
     id: randomId(8),
-    name: input.name.trim().slice(0, 120),
-    email: input.email.trim().slice(0, 200),
-    phone: input.phone.trim().slice(0, 40),
-    linkedin: input.linkedin.trim().slice(0, 200),
+    ...sanitize(input),
     joinedAt: Date.now(),
   };
   group.members.push(member);
+  await store.set(groupKey(group.id), group, TTL_SECONDS);
+  return group;
+}
+
+export async function updateMember(
+  id: string,
+  memberId: string,
+  input: MemberInput,
+): Promise<Group | null> {
+  const group = await getGroup(id);
+  if (!group) return null;
+  const member = group.members.find((m) => m.id === memberId);
+  if (!member) return null;
+
+  Object.assign(member, sanitize(input));
+  await store.set(groupKey(group.id), group, TTL_SECONDS);
+  return group;
+}
+
+export async function removeMember(
+  id: string,
+  memberId: string,
+): Promise<Group | null> {
+  const group = await getGroup(id);
+  if (!group) return null;
+  group.members = group.members.filter((m) => m.id !== memberId);
   await store.set(groupKey(group.id), group, TTL_SECONDS);
   return group;
 }

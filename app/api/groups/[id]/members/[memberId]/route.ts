@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { addMember } from "@/lib/groups";
+import { removeMember, updateMember } from "@/lib/groups";
 
 export const dynamic = "force-dynamic";
 
@@ -7,11 +7,11 @@ function str(v: unknown): string {
   return typeof v === "string" ? v : "";
 }
 
-export async function POST(
+export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ id: string; memberId: string }> },
 ) {
-  const { id } = await params;
+  const { id, memberId } = await params;
   const body = await request.json().catch(() => ({}));
 
   const name = str(body.name).trim();
@@ -23,7 +23,7 @@ export async function POST(
     return NextResponse.json({ error: "A valid email is required" }, { status: 400 });
   }
 
-  const group = await addMember(id, {
+  const group = await updateMember(id, memberId, {
     name,
     email,
     phone: str(body.phone),
@@ -32,7 +32,19 @@ export async function POST(
     role: str(body.role),
   });
   if (!group) {
+    return NextResponse.json({ error: "Group or member not found" }, { status: 404 });
+  }
+  return NextResponse.json({ group });
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string; memberId: string }> },
+) {
+  const { id, memberId } = await params;
+  const group = await removeMember(id, memberId);
+  if (!group) {
     return NextResponse.json({ error: "Group not found or expired" }, { status: 404 });
   }
-  return NextResponse.json({ group }, { status: 201 });
+  return NextResponse.json({ group });
 }

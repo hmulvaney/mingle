@@ -417,7 +417,7 @@ export default function GroupPage({
                 onClick={downloadAll}
                 style={{ flex: 1 }}
               >
-                Download everyone
+                Download all (CSV)
               </button>
             </div>
 
@@ -443,7 +443,7 @@ export default function GroupPage({
                       style={{ padding: "8px 12px", fontSize: 13 }}
                       onClick={() => downloadVcardFor(m)}
                     >
-                      Save
+                      Save contact
                     </button>
                   </div>
                   {sub && <span className="muted">{sub}</span>}
